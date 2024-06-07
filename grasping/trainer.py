@@ -39,9 +39,6 @@ class MobileUNet(nn.Module):
         # output of self.backbone2 is tensor of shape (B, 40, 4, 4)
         self.backbone2 = nn.Sequential(*[all_layers[i] for i in range(3, 6)])
 
-        ##########################
-        # define other layers here
-        ##########################
         self.layers_narrow = torch.nn.Sequential(
             nn.Conv2d(40, 4, kernel_size=1, stride=1, padding=0),  # input tensor is (40, 4, 4), output is (4, 4, 4)
             nn.ReLU(),
@@ -78,9 +75,6 @@ class MobileUNet(nn.Module):
         x_narrow = self.backbone2(x_wide)  # tensor of shape (B, 40, 4, 4)
 
         
-        ############################################
-        # implement additional steps in forward pass
-        ############################################
 
         x_w = self.layers_wide(x_wide)  # (B, 4, 32, 32)
         x_n = self.layers_narrow(x_narrow)  # (B, 4, 32, 32)
